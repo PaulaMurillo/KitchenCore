@@ -31,7 +31,7 @@ export function DetalleProducto() {
       return imagen;
     }
 
-    return "https://placehold.co/600x400?text=KitchenCore";
+    return imagen.startsWith("/") ? imagen : `/${imagen}`;
   };
 
   useEffect(() => {
