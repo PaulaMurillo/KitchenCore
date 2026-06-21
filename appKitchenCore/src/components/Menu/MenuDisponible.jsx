@@ -11,6 +11,17 @@ import Divider from "@mui/material/Divider";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
+const formatearFecha = (fecha) => {
+  const [anio, mes, dia] = fecha.split("-").map(Number);
+
+  return new Intl.DateTimeFormat("es-CR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(anio, mes - 1, dia));
+};
+
 export function MenuDisponible() {
   const [menu, setMenu] = useState(null);
   const [loaded, setLoaded] = useState(false);
@@ -62,7 +73,9 @@ export function MenuDisponible() {
 
           <Box sx={{ mt: 2 }}>
             <Chip
-              label={`Disponible del ${menu.fecha_inicio} al ${menu.fecha_fin}`}
+              label={`Disponible del ${formatearFecha(
+                menu.fecha_inicio,
+              )} al ${formatearFecha(menu.fecha_fin)}`}
               color="primary"
               sx={{ mr: 1, mb: 1 }}
             />
@@ -98,9 +111,7 @@ export function MenuDisponible() {
                           }}
                         >
                           <Box>
-                            <Typography variant="h6">
-                              {item.nombre}
-                            </Typography>
+                            <Typography variant="h6">{item.nombre}</Typography>
 
                             <Typography variant="body2" color="text.secondary">
                               {item.descripcion}
@@ -110,10 +121,6 @@ export function MenuDisponible() {
                           <Typography variant="h6" color="secondary">
                             ₡{Number(item.precio).toLocaleString("es-CR")}
                           </Typography>
-                        </Box>
-
-                        <Box sx={{ mt: 1 }}>
-                          <Chip label={item.tipo} size="small" />
                         </Box>
                       </CardContent>
                     </Card>
