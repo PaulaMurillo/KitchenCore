@@ -1,5 +1,6 @@
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
+/** Informa al usuario que no tiene permiso para acceder a una página. */
 export function Unauthorized() {
   return (
     <Container sx={{ p: 2 }} maxWidth="sm">

@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 
+/** Carga y presenta el catálogo de combos disponibles. */
 export function ListCombos() {
   const [combos, setCombos] = useState([]);
   const [loaded, setLoaded] = useState(false);

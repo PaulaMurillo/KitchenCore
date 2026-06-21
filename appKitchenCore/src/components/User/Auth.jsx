@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
+/** Protege una ruta y redirige cuando el usuario no posee un rol permitido. */
 export function Auth(requiredRoles) {
   const location = useLocation();
   const { user, autorize } = useContext(UserContext);

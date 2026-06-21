@@ -5,6 +5,7 @@ class Request
     public $reqMethod;
     public $contentType;
 
+    /** Inicializa los datos básicos de la solicitud HTTP actual. */
     public function __construct($params = [])
     {
         $this->params = $params;
@@ -12,6 +13,7 @@ class Request
         $this->contentType = !empty($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
     }
 
+    /** Obtiene y sanea campos y archivos enviados mediante POST. */
     public function getBody()
     {
         if ($this->reqMethod !== 'POST') {
@@ -47,6 +49,7 @@ class Request
         return $body;
     }
 
+    /** Decodifica el cuerpo JSON de la solicitud. */
     public function getJSON()
     {
 

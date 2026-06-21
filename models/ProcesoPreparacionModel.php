@@ -4,11 +4,13 @@ class ProcesoPreparacionModel
 {
     public $enlace;
 
+    /** Inicializa el acceso del modelo a la base de datos. */
     public function __construct()
     {
         $this->enlace = new MySqlConnect();
     }
 
+    /** Obtiene los productos y la cantidad de estaciones de cada proceso. */
     public function all()
     {
         try {
@@ -37,6 +39,7 @@ class ProcesoPreparacionModel
         }
     }
 
+    /** Obtiene el detalle de un proceso con sus estaciones en orden. */
     public function get($id)
     {
         try {

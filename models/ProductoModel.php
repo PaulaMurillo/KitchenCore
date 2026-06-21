@@ -4,6 +4,7 @@ class ProductoModel
 {
     public $enlace;
 
+    /** Inicializa el acceso del modelo a la base de datos. */
     public function __construct()
     {
         $this->enlace = new MySqlConnect();

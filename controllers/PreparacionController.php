@@ -2,6 +2,7 @@
 
 class preparacion
 {
+    /** Devuelve el listado de procesos de preparación. */
     public function index()
     {
         try {
@@ -14,6 +15,7 @@ class preparacion
         }
     }
 
+    /** Devuelve el proceso de preparación del producto solicitado. */
     public function get($id)
     {
         try {

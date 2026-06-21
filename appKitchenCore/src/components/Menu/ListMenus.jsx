@@ -9,6 +9,7 @@ import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 
+/** Carga y presenta los menús según su estado de disponibilidad. */
 export function ListMenus() {
   const [menus, setMenus] = useState([]);
   const [loaded, setLoaded] = useState(false);

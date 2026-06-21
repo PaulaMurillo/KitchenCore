@@ -2,6 +2,7 @@
 import React from "react";
 import { Box, Container, Typography } from "@mui/material";
 
+/** Muestra el pie de página institucional de KitchenCore. */
 export function Footer() {
   return (
     <Box

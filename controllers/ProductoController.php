@@ -2,6 +2,7 @@
 
 class producto
 {
+    /** Devuelve todos los productos activos en formato JSON. */
     public function index()
     {
         try {
@@ -14,6 +15,7 @@ class producto
         }
     }
 
+    /** Devuelve el detalle del producto solicitado. */
     public function get($id)
     {
         try {

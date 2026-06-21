@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import UserService from '../../services/UserService';
 import { UserContext } from '../../context/UserContext';
 
+/** Presenta el formulario y gestiona el inicio de sesión. */
 export function Login() {
   const navigate = useNavigate();
   const { saveUser } = useContext(UserContext);
@@ -42,6 +43,7 @@ export function Login() {
 
   const [error, setError] = useState(null);
   // Accion submit
+  /** Envía las credenciales validadas y almacena la sesión recibida. */
   const onSubmit = (DataForm) => {
     try {
       UserService.loginUser(DataForm)

@@ -6,14 +6,18 @@ export const CART_ACTION = {
   CLEAN_CART: "CLEAN_CART",
 };
 
+/** Guarda el estado actual del carrito en el almacenamiento local. */
 export const updateLocalStorage = (state) => {
   localStorage.setItem("cart", JSON.stringify(state));
 };
 
+/** Calcula el subtotal de un artículo según precio y cantidad. */
 const calculateSubtotal = (item) => item.price * item.quantity;
+/** Suma los subtotales de todos los artículos del carrito. */
 const calculateTotal = (cart) =>
   cart.reduce((acc, item) => acc + item.subtotal, 0);
 
+/** Aplica las acciones que agregan, eliminan o limpian artículos del carrito. */
 export const cartReducer = (state, action) => {
   const { type: actionType, payload: actionPayload } = action;
 
@@ -58,6 +62,8 @@ export const cartReducer = (state, action) => {
   }
 };
 
+/** Devuelve el importe total del carrito. */
 export const getTotal = (state) => calculateTotal(state);
+/** Devuelve la cantidad total de unidades incluidas en el carrito. */
 export const getCountItems = (state) =>
   state.reduce((acc, item) => acc + item.quantity, 0);

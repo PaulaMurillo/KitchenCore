@@ -11,6 +11,7 @@ import Divider from "@mui/material/Divider";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 
+/** Convierte una fecha del API a un formato legible en Costa Rica. */
 const formatearFecha = (fecha) => {
   const [anio, mes, dia] = fecha.split("-").map(Number);
 
@@ -22,6 +23,7 @@ const formatearFecha = (fecha) => {
   }).format(new Date(anio, mes - 1, dia));
 };
 
+/** Carga y presenta el menú vigente agrupado por categorías. */
 export function MenuDisponible() {
   const [menu, setMenu] = useState(null);
   const [loaded, setLoaded] = useState(false);

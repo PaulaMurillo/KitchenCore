@@ -4,6 +4,8 @@ import { Layout } from "./components/Layout/Layout";
 import { Outlet } from 'react-router-dom'
 import { CartProvider } from "./context/CartContext";
 
+/** Compone la estructura principal y las notificaciones de la aplicación. */
+
 export default function App() { 
   return ( 
     //Provider CartContext

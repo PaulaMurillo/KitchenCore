@@ -2,6 +2,7 @@
 
 class menu
 {
+    /** Devuelve todos los menús en formato JSON. */
     public function index()
     {
         try {
@@ -14,6 +15,7 @@ class menu
         }
     }
 
+    /** Devuelve el menú identificado por el parámetro recibido. */
     public function get($id)
     {
         try {
@@ -26,6 +28,7 @@ class menu
         }
     }
 
+    /** Devuelve el menú disponible para la fecha y hora actuales. */
     public function disponible()
     {
         try {

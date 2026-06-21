@@ -10,6 +10,7 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+/** Distribuye encabezado, contenido principal y pie de página. */
 export function Layout({ children }) {
   return (
     <Box

@@ -13,6 +13,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Paper from "@mui/material/Paper";
 
+/** Carga y muestra el producto seleccionado con sus ingredientes. */
 export function DetalleProducto() {
   const { id } = useParams();
 
@@ -20,6 +21,7 @@ export function DetalleProducto() {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
 
+  /** Construye la URL pública de la imagen del producto. */
   const getImageUrl = (imagen) => {
     if (!imagen) {
       return "https://placehold.co/600x400?text=KitchenCore";

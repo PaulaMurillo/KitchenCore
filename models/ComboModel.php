@@ -4,11 +4,13 @@ class ComboModel
 {
     public $enlace;
 
+    /** Inicializa el acceso del modelo a la base de datos. */
     public function __construct()
     {
         $this->enlace = new MySqlConnect();
     }
 
+    /** Obtiene todos los combos activos y su cantidad de productos. */
     public function all()
     {
         try {
@@ -37,6 +39,7 @@ class ComboModel
         }
     }
 
+    /** Obtiene el detalle de un combo y los productos que incluye. */
     public function get($id)
     {
         try {

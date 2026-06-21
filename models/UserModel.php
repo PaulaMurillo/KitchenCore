@@ -5,11 +5,13 @@ use Firebase\JWT\JWT;
 class UserModel
 {
 	public $enlace;
+	/** Inicializa el acceso del modelo a la base de datos. */
 	public function __construct()
 	{
 
 		$this->enlace = new MySqlConnect();
 	}
+	/** Obtiene todos los usuarios registrados. */
 	public function all()
 	{
 		try {
@@ -26,6 +28,7 @@ class UserModel
 		}
 	}
 
+	/** Obtiene un usuario por ID junto con su rol. */
 	public function get($id)
 	{
 		try {
@@ -48,6 +51,7 @@ class UserModel
 			die($e->getMessage());
 		}
 	}
+	/** Obtiene todos los usuarios que tienen el rol de cliente. */
 	public function allCustomer()
 	{
 		try {
@@ -64,6 +68,7 @@ class UserModel
 			die($e->getMessage());
 		}
 	}
+	/** Valida las credenciales y genera el token JWT del usuario. */
 	public function login($objeto)
 	{
 		try {
@@ -100,6 +105,7 @@ class UserModel
 			handleException($e);
 		}
 	}
+	/** Registra un usuario nuevo y devuelve sus datos. */
 	public function create($objeto)
 	{
 		try {

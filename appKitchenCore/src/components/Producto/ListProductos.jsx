@@ -13,11 +13,13 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 
+/** Carga y presenta el catálogo de productos activos. */
 export function ListProductos() {
   const [productos, setProductos] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
 
+  /** Construye la URL pública de la imagen de un producto. */
   const getImageUrl = (imagen) => {
     if (!imagen) {
       return "https://placehold.co/600x400?text=KitchenCore";

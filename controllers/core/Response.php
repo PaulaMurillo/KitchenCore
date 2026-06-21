@@ -4,12 +4,14 @@ class Response
 {
     private $status = 200;
 
+    /** Define el código HTTP que utilizará la respuesta. */
     public function status(int $code)
     {
         $this->status = $code;
         return $this;
     }
     
+    /** Serializa y envía la respuesta al cliente en formato JSON. */
     public function toJSON($response = [],$message="")
     {
         //Verificar respuesta

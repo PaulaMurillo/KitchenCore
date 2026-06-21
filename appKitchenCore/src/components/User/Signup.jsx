@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import UserService from '../../services/UserService';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+/** Presenta el formulario para registrar una nueva cuenta. */
 export function Signup() {
   const navigate = useNavigate();
   // Esquema de validación
@@ -49,6 +50,7 @@ export function Signup() {
       position: 'top-center',
     });
   // Accion submit
+  /** Envía al servidor los datos validados del nuevo usuario. */
   const onSubmit = (DataForm) => {
     try {
       console.log(DataForm);

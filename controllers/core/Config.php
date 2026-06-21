@@ -3,6 +3,7 @@ class Config
 {
     private static $config;
 
+    /** Obtiene un valor de configuración o devuelve el valor predeterminado. */
     public static function get($key, $default = null)
     {
         if (is_null(self::$config)) {

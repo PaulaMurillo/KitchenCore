@@ -4,18 +4,21 @@ class RoutesController
     private $authMiddleware;
     private $protectedRoutes = [];
 
+    /** Inicializa la validación de rutas para la solicitud actual. */
     public function __construct() {
         // $this->authMiddleware = new AuthMiddleware();
         // $this->registerRoutes();
         $this->routes();
     }
 
+    /** Registra la configuración de las rutas que requieren autorización. */
     private function registerRoutes() {
         // Registrar rutas protegidas
         //---------------------  Metodo,path (en minuscula),controlador, accion, array de nombres de roles
         $this->addProtectedRoute('GET', '/kitchencore/actor', 'actor', 'index', ['Administrador']);
     }
 
+    /** Aplica el middleware correspondiente cuando la ruta está protegida. */
     public function routes() {
         $method = $_SERVER['REQUEST_METHOD'];
         $path = strtolower($_SERVER['REQUEST_URI']);
@@ -31,6 +34,7 @@ class RoutesController
         } 
     }
 
+    /** Añade una ruta protegida y los roles que pueden utilizarla. */
     private function addProtectedRoute($method, $path, $controllerName, $action, $requiredRole) {
         $this->protectedRoutes["$method:$path"] = [
             'controller' => $controllerName,
@@ -39,9 +43,11 @@ class RoutesController
         ];
     }
 
+    /** Indica si el método HTTP y la ruta están registrados como protegidos. */
     private function isProtectedRoute($method, $path) {
         return isset($this->protectedRoutes["$method:$path"]);
     }
+    /** Despacha la solicitud HTTP hacia el controlador y la acción solicitados. */
     public function index()
     {
         //include "routes/routes.php";

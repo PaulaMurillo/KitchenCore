@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Grid from "@mui/material/Grid2";
 import error from '../../assets/error.jpg';
 
+/** Informa que la ruta solicitada no existe y permite volver al inicio. */
 export function PageNotFound() {
   return (
     <Container component="main" sx={{ mt: 8, mb: 2 }}>

@@ -12,6 +12,7 @@ class MySqlConnect {
 
 	private $log;
 	
+	/** Carga la configuración necesaria para conectarse a MySQL. */
 	public function __construct() {
 		// Parametros de conexión
 		$this->username = Config::get('DB_USERNAME');

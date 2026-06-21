@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 
+/** Carga y presenta los procesos de preparación de los productos. */
 export function ListProcesos() {
   const [procesos, setProcesos] = useState([]);
   const [loaded, setLoaded] = useState(false);

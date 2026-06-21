@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 
 
+/** Cierra la sesión local y redirige al formulario de ingreso. */
 export function Logout() {
   const navigate = useNavigate();
   const { clearUser } = useContext(UserContext);
   useEffect(() => {
     clearUser();
-    return navigate('/user/login');
-  }, []);
+    navigate('/user/login');
+  }, [clearUser, navigate]);
   return null;
 }

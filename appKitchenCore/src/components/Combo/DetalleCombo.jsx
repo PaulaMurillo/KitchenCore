@@ -12,6 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 
+/** Carga y muestra el combo seleccionado con los productos que incluye. */
 export function DetalleCombo() {
   const { id } = useParams();
 

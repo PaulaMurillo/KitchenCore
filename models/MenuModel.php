@@ -4,11 +4,13 @@ class MenuModel
 {
     public $enlace;
 
+    /** Inicializa el acceso del modelo a la base de datos. */
     public function __construct()
     {
         $this->enlace = new MySqlConnect();
     }
 
+    /** Obtiene los menús ordenados según su estado de disponibilidad. */
     public function all()
     {
         try {
@@ -31,7 +33,18 @@ class MenuModel
                         ELSE 'No disponible'
                     END AS estado
                 FROM Menus m
-                ORDER BY m.fecha_inicio DESC, m.hora_inicio DESC;
+                ORDER BY
+                    CASE
+                        WHEN m.activo = 1
+                            AND CURDATE() BETWEEN m.fecha_inicio AND m.fecha_fin
+                            AND CURTIME() BETWEEN m.hora_inicio AND m.hora_fin
+                            THEN 1
+                        WHEN m.fecha_inicio > CURDATE()
+                            THEN 3
+                        ELSE 2
+                    END,
+                    m.fecha_inicio DESC,
+                    m.hora_inicio DESC;
             ";
 
             return $this->enlace->executeSQL($vSQL);
@@ -40,6 +53,7 @@ class MenuModel
         }
     }
 
+    /** Obtiene el menú disponible actualmente y agrupa sus elementos por categoría. */
     public function disponible()
     {
         try {
@@ -119,6 +133,7 @@ class MenuModel
         }
     }
 
+    /** Resuelve la consulta especial del menú disponible. */
     public function get($id)
     {
         if ($id === "disponible") {

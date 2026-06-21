@@ -2,6 +2,7 @@ import { Box, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { MenuDisponible } from "../Menu/MenuDisponible";
 
+/** Presenta la página de inicio y el acceso a las funciones principales. */
 export function Home() {
   return (
     <Container sx={{ py: 4 }}>

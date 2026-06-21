@@ -13,6 +13,7 @@ import StepContent from "@mui/material/StepContent";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 
+/** Carga y muestra las estaciones ordenadas del proceso seleccionado. */
 export function DetalleProceso() {
   const { id } = useParams();
 

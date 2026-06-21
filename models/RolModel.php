@@ -1,11 +1,13 @@
 <?php
 class RolModel{
     public $enlace;
+    /** Inicializa el acceso del modelo a la base de datos. */
     public function __construct() {
         
         $this->enlace=new MySqlConnect();
        
     }
+    /** Obtiene todos los roles registrados. */
     public function all(){
         try {
             //Consulta sql
@@ -21,6 +23,7 @@ class RolModel{
 		}
     }
 
+    /** Obtiene un rol específico por su ID. */
     public function get($id){
         try {
             //Consulta sql
@@ -34,6 +37,7 @@ class RolModel{
 			die ( $e->getMessage () );
 		}
     }
+    /** Obtiene el rol asignado a un usuario. */
     public function getRolUser($idUser){
         try {
             //Consulta sql

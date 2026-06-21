@@ -8,7 +8,7 @@ class user
 {
 
     private $secret_key = 'e0d17975bc9bd57eee132eecb6da6f11048e8a88506cc3bffc7249078cf2a77a';
-    //Listar en el API
+    /** Devuelve el listado completo de usuarios en formato JSON. */
     public function index()
     {
         $response = new Response();
@@ -18,6 +18,7 @@ class user
         //Dar respuesta
         $response->toJSON($result);
     }
+    /** Devuelve un usuario específico según el ID recibido. */
     public function get($param)
     {
         $response = new Response();
@@ -26,6 +27,7 @@ class user
         //Dar respuesta
         $response->toJSON($result);
     }
+    /** Devuelve el listado de usuarios con rol de cliente. */
     public function allCustomer()
     {
         $response = new Response();
@@ -35,6 +37,7 @@ class user
         //Dar respuesta
         $response->toJSON($result);
     }
+    /** Procesa las credenciales y devuelve el token de autenticación. */
     public function login()
     {
         $response = new Response();
@@ -49,6 +52,7 @@ class user
             $response->toJSON($response, "Usuario no valido");
         }
     }
+    /** Procesa la solicitud para registrar un usuario. */
     public function create()
     {
         $response = new Response();

@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 set_exception_handler('handleException');
 set_error_handler('handleError');
 
+/** Registra una excepción no controlada y devuelve una respuesta HTTP 500. */
 function handleException($exception) {
     $log = new Logger();
     $error=[
@@ -19,6 +20,7 @@ function handleException($exception) {
     exit;
 }
 
+/** Convierte un error de PHP en una respuesta registrada con estado HTTP 500. */
 function handleError($errno, $errstr, $errfile, $errline) {
     $log = new Logger();
     $error=[

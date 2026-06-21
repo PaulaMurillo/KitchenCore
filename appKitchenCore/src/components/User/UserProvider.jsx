@@ -1,10 +1,11 @@
 import { jwtDecode } from 'jwt-decode';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { UserContext } from '../../context/UserContext';
 
 
 
+/** Proporciona el estado y las operaciones de autenticación a la aplicación. */
 export default function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -14,18 +15,21 @@ export default function UserProvider({ children }) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
-  const saveUser = (user) => {
+  /** Guarda el token del usuario y marca la sesión como autenticada. */
+  const saveUser = useCallback((user) => {
     setUser(user);
     localStorage.setItem('user', JSON.stringify(user));
     setIsAuthenticated(true);
-  };
+  }, []);
 
-  const clearUser = () => {
+  /** Elimina la sesión almacenada del usuario. */
+  const clearUser = useCallback(() => {
     setUser({});
     localStorage.removeItem('user');
     setIsAuthenticated(false);
-  };
-  const decodeToken = () => {
+  }, []);
+  /** Decodifica el token JWT del usuario autenticado. */
+  const decodeToken = useCallback(() => {
     if (user && Object.keys(user).length > 0) {
       const decodedToken = jwtDecode(user);
       
@@ -33,10 +37,11 @@ export default function UserProvider({ children }) {
     } else {
       return {};
     }
-  };
+  }, [user]);
 
   //requiredRoles=['Administrador','Cliente']
-  const autorize = ({ requiredRoles }) => {
+  /** Comprueba si el usuario posee alguno de los roles requeridos. */
+  const autorize = useCallback(({ requiredRoles }) => {
     const userData = decodeToken();
     if (userData && requiredRoles) {
       console.log(
@@ -47,7 +52,7 @@ export default function UserProvider({ children }) {
       );
     }
     return false;
-  };
+  }, [decodeToken]);
 
   UserProvider.propTypes = {
     children: PropTypes.node.isRequired,

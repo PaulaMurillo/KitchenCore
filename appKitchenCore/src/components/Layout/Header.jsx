@@ -18,13 +18,14 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { UserContext } from "../../context/UserContext";
 import logoKitchenCore from "../../assets/kitchencore-logo.png";
 
+/** Presenta la navegación principal y las opciones de la sesión activa. */
 export default function Header() {
   const { user, decodeToken, autorize } = useContext(UserContext);
   const [userData, setUserData] = useState(decodeToken());
 
   useEffect(() => {
     setUserData(decodeToken());
-  }, [user]);
+  }, [user, decodeToken]);
 
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [anchorElPrincipal, setAnchorElPrincipal] = useState(null);
@@ -32,27 +33,33 @@ export default function Header() {
 
   const isMobileOpcionesMenuOpen = Boolean(mobileOpcionesAnchorEl);
 
+  /** Abre el menú asociado a la cuenta del usuario. */
   const handleUserMenuOpen = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
+  /** Cierra el menú de usuario y sus opciones auxiliares. */
   const handleUserMenuClose = () => {
     setAnchorElUser(null);
     handleOpcionesMenuClose();
   };
 
+  /** Abre el menú principal en pantallas pequeñas. */
   const handleOpenPrincipalMenu = (event) => {
     setAnchorElPrincipal(event.currentTarget);
   };
 
+  /** Cierra el menú principal para dispositivos móviles. */
   const handleClosePrincipalMenu = () => {
     setAnchorElPrincipal(null);
   };
 
+  /** Abre el menú móvil de opciones adicionales. */
   const handleOpcionesMenuOpen = (event) => {
     setMobileOpcionesAnchorEl(event.currentTarget);
   };
 
+  /** Cierra el menú móvil de opciones adicionales. */
   const handleOpcionesMenuClose = () => {
     setMobileOpcionesAnchorEl(null);
   };
@@ -71,6 +78,7 @@ export default function Header() {
     { name: "Preparación", link: "/procesos", roles: null },
   ];
 
+  /** Determina si una opción de navegación puede mostrarse según el rol. */
   const canShowItem = (item) => {
     if (item.roles === null) return true;
     if (!userData || Object.keys(userData).length === 0) return false;

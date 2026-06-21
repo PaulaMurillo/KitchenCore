@@ -2,6 +2,7 @@
 
 class combo
 {
+    /** Devuelve todos los combos activos en formato JSON. */
     public function index()
     {
         try {
@@ -14,6 +15,7 @@ class combo
         }
     }
 
+    /** Devuelve el detalle del combo solicitado. */
     public function get($id)
     {
         try {
