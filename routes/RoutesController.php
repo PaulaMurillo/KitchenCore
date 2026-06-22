@@ -126,7 +126,11 @@ class RoutesController
                                 case 'POST':
                                     if ($action) {
                                         if (method_exists($controller, $action)) {
-                                            $response->$action();
+                                            if ($param1) {
+                                                $response->$action($param1);
+                                            } else {
+                                                $response->$action();
+                                            }
                                         } else {
                                             $json = array(
                                                 'status' => 404,
@@ -143,6 +147,8 @@ class RoutesController
                                 case 'PATCH':
                                     if ($param1) {
                                         $response->update($param1);
+                                    } elseif ($action && is_numeric($action)) {
+                                        $response->update($action);
                                     } elseif ($action) {
                                         if (method_exists($controller, $action)) {
                                             $response->$action();
@@ -161,6 +167,8 @@ class RoutesController
                                 case 'DELETE':
                                     if ($param1) {
                                         $response->delete($param1);
+                                    } elseif ($action && is_numeric($action)) {
+                                        $response->delete($action);
                                     } elseif ($action) {
                                         if (method_exists($controller, $action)) {
                                             $response->$action();

@@ -72,6 +72,11 @@ export default function Header() {
 
   const navItems = [
     { name: "Productos", link: "/productos", roles: null },
+    {
+      name: "Mantenimiento Productos",
+      link: "/productos/mantenimiento",
+      roles: null,
+    },
     { name: "Combos", link: "/combos", roles: null },
     { name: "Menús", link: "/menus", roles: null },
     { name: "Menú disponible", link: "/menu-disponible", roles: null },

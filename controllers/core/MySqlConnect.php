@@ -118,4 +118,24 @@ class MySqlConnect {
 			handleException($e);
 		}
 	}
+
+	/**
+	 * Ejecuta varias operaciones sobre una misma conexión y confirma únicamente
+	 * cuando todas finalizan correctamente.
+	 */
+	public function executeTransaction(callable $callback) {
+		$this->connect();
+		$this->link->begin_transaction();
+
+		try {
+			$result = $callback($this->link);
+			$this->link->commit();
+			return $result;
+		} catch (Throwable $e) {
+			$this->link->rollback();
+			throw $e;
+		} finally {
+			$this->link->close();
+		}
+	}
 }

@@ -16,6 +16,9 @@ import { Signup } from "./components/User/Signup";
 
 import { ListProductos } from "./components/Producto/ListProductos";
 import { DetalleProducto } from "./components/Producto/DetalleProducto";
+import { MantenimientoProductos } from "./components/Producto/MantenimientoProductos";
+import { CrearProducto } from "./components/Producto/CrearProducto";
+import { EditarProducto } from "./components/Producto/EditarProducto";
 
 import { ListCombos } from "./components/Combo/ListCombos";
 import { DetalleCombo } from "./components/Combo/DetalleCombo";
@@ -32,6 +35,9 @@ const rutas = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/productos", element: <ListProductos /> },
+      { path: "/productos/mantenimiento", element: <MantenimientoProductos /> },
+      { path: "/productos/crear", element: <CrearProducto /> },
+      { path: "/productos/editar/:id", element: <EditarProducto /> },
       { path: "/productos/:id", element: <DetalleProducto /> },
       { path: "/combos", element: <ListCombos /> },
       { path: "/combos/:id", element: <DetalleCombo /> },

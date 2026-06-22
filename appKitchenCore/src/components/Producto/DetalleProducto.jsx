@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ProductoService from "../../services/ProductoService";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -20,19 +21,6 @@ export function DetalleProducto() {
   const [producto, setProducto] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
-
-  /** Construye la URL pública de la imagen del producto. */
-  const getImageUrl = (imagen) => {
-    if (!imagen) {
-      return "https://placehold.co/600x400?text=KitchenCore";
-    }
-
-    if (imagen.startsWith("http")) {
-      return imagen;
-    }
-
-    return imagen.startsWith("/") ? imagen : `/${imagen}`;
-  };
 
   useEffect(() => {
     ProductoService.getProductoById(id)
@@ -105,8 +93,8 @@ export function DetalleProducto() {
 
             <List>
               {producto.ingredientes &&
-                producto.ingredientes.map((ingrediente, index) => (
-                  <ListItem key={index} disablePadding>
+                producto.ingredientes.map((ingrediente) => (
+                  <ListItem key={ingrediente.id_ingrediente} disablePadding>
                     <ListItemText
                       primary={ingrediente.nombre}
                       secondary={`${ingrediente.cantidad_requerida} ${ingrediente.unidad_medida}`}
@@ -114,6 +102,25 @@ export function DetalleProducto() {
                   </ListItem>
                 ))}
             </List>
+
+            <Typography variant="h6" sx={{ mt: 3 }}>
+              Proceso de preparación
+            </Typography>
+
+            {producto.proceso_preparacion?.length > 0 ? (
+              <List>
+                {producto.proceso_preparacion.map((paso) => (
+                  <ListItem key={paso.id_estacion} divider>
+                    <ListItemText
+                      primary={`${paso.orden_paso}. ${paso.nombre_estacion}`}
+                      secondary={paso.descripcion}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <Chip label="Sin proceso de preparación" color="error" variant="outlined" />
+            )}
           </Grid>
         </Grid>
       </Paper>
