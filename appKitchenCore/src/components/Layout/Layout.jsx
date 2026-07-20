@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { Box, Container } from "@mui/material";
 import Header from "./Header";
 import { Footer } from "./Footer";
-import { Toaster } from "react-hot-toast";
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
@@ -33,7 +32,6 @@ export function Layout({ children }) {
           pb: { xs: 5, md: 6 },
         }}
       >
-        <Toaster position="bottom-right" />
         {children}
       </Container>
 

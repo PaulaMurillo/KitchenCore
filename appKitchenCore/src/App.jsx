@@ -16,7 +16,7 @@ export default function App() {
         <Layout> 
           <Outlet /> 
         </Layout> 
-        <Toaster position="top-right" />
+        <Toaster position="top-center" />
       </ThemeProvider>
     </CartProvider> 
   ); 
