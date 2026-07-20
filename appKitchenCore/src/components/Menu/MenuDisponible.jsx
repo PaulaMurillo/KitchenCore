@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MenuService from "../../services/MenuService";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -9,6 +10,7 @@ import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import { formatearFecha, formatearPrecio, formatearRangoHoras } from "../../utils/formatters";
 
@@ -17,6 +19,7 @@ export function MenuDisponible() {
   const [menu, setMenu] = useState(null);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
+  const comboFallback = "/uploads/default-combo.jpg";
 
   useEffect(() => {
     MenuService.getMenuDisponible()
@@ -91,8 +94,25 @@ export function MenuDisponible() {
               <Grid container spacing={2}>
                 {categoria.items.map((item) => (
                   <Grid item xs={12} md={6} key={item.id}>
-                    <Card variant="outlined">
-                      <CardContent>
+                    <Card
+                      variant="outlined"
+                      sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+                    >
+                      <CardMedia
+                        component="img"
+                        height="180"
+                        image={getImageUrl(
+                          item.imagen_url,
+                          item.tipo === "Combo" ? comboFallback : "/lunchDining.svg",
+                        )}
+                        alt={item.nombre}
+                        onError={(event) => {
+                          event.currentTarget.src =
+                            item.tipo === "Combo" ? comboFallback : "/lunchDining.svg";
+                        }}
+                        sx={{ objectFit: "cover", backgroundColor: "#F5F5F5" }}
+                      />
+                      <CardContent sx={{ flexGrow: 1 }}>
                         <Box
                           sx={{
                             display: "flex",

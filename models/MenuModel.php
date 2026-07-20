@@ -386,6 +386,7 @@ class MenuModel
                 COALESCE(p.nombre, cb.nombre) AS nombre,
                 COALESCE(p.descripcion, cb.descripcion) AS descripcion,
                 COALESCE(p.precio, cb.precio_especial) AS precio,
+                COALESCE(p.imagen_url, cb.imagen_url) AS imagen_url,
                 COALESCE(catp.nombre, catc.nombre) AS categoria
              FROM Menu_Items mi
              LEFT JOIN Productos p ON mi.id_producto = p.id_producto
