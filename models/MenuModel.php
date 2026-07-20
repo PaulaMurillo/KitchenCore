@@ -13,7 +13,53 @@ class MenuModel
     /** Obtiene los menus ordenados segun su estado de disponibilidad. */
     public function all()
     {
-        return $this->allMantenimiento();
+        $vSQL = "
+            SELECT
+                m.id_menu AS id,
+                m.nombre,
+                m.fecha_inicio,
+                m.fecha_fin,
+                m.hora_inicio,
+                m.hora_fin,
+                m.activo,
+                COUNT(DISTINCT mi_producto.id_menu_item) AS cantidad_productos,
+                COUNT(DISTINCT mi_combo.id_menu_item) AS cantidad_combos,
+                CASE
+                    WHEN CURDATE() BETWEEN m.fecha_inicio AND m.fecha_fin
+                    AND CURTIME() BETWEEN m.hora_inicio AND m.hora_fin
+                    THEN 'Disponible'
+                    WHEN m.fecha_inicio > CURDATE()
+                    THEN 'Proximo'
+                    ELSE 'No disponible'
+                END AS estado
+            FROM Menus m
+            LEFT JOIN Menu_Items mi_producto
+                ON m.id_menu = mi_producto.id_menu AND mi_producto.id_producto IS NOT NULL
+            LEFT JOIN Menu_Items mi_combo
+                ON m.id_menu = mi_combo.id_menu AND mi_combo.id_combo IS NOT NULL
+            WHERE m.activo = 1
+            GROUP BY
+                m.id_menu,
+                m.nombre,
+                m.fecha_inicio,
+                m.fecha_fin,
+                m.hora_inicio,
+                m.hora_fin,
+                m.activo
+            ORDER BY
+                CASE
+                    WHEN CURDATE() BETWEEN m.fecha_inicio AND m.fecha_fin
+                        AND CURTIME() BETWEEN m.hora_inicio AND m.hora_fin
+                        THEN 1
+                    WHEN m.fecha_inicio > CURDATE()
+                        THEN 3
+                    ELSE 2
+                END,
+                m.fecha_inicio DESC,
+                m.id_menu DESC;
+        ";
+
+        return $this->enlace->executeSQL($vSQL);
     }
 
     /** Obtiene todos los menus con conteos para administracion. */
