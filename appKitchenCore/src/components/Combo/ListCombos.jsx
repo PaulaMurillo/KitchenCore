@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ComboService from "../../services/ComboService";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
@@ -17,6 +19,7 @@ export function ListCombos() {
   const [combos, setCombos] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
+  const comboFallback = "/uploads/default-combo.jpg";
 
   useEffect(() => {
     ComboService.getCombos()
@@ -53,6 +56,16 @@ export function ListCombos() {
         {combos.map((combo) => (
           <Grid item xs={12} sm={6} md={3} key={combo.id}>
             <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+              <CardMedia
+                component="img"
+                height="180"
+                image={getImageUrl(combo.imagen_url, comboFallback)}
+                alt={combo.nombre}
+                onError={(event) => {
+                  event.currentTarget.src = comboFallback;
+                }}
+                sx={{ objectFit: "cover", backgroundColor: "#F5F5F5" }}
+              />
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography variant="h6" component="h2">
                   {combo.nombre}

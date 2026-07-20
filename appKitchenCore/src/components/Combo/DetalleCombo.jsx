@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ComboService from "../../services/ComboService";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -15,6 +16,7 @@ import Box from "@mui/material/Box";
 /** Carga y muestra el combo seleccionado con los productos que incluye. */
 export function DetalleCombo() {
   const { id } = useParams();
+  const comboFallback = "/uploads/default-combo.jpg";
 
   const [combo, setCombo] = useState(null);
   const [loaded, setLoaded] = useState(false);
@@ -52,6 +54,23 @@ export function DetalleCombo() {
       </Button>
 
       <Paper sx={{ p: 3 }}>
+        <Box
+          component="img"
+          src={getImageUrl(combo.imagen_url, comboFallback)}
+          alt={combo.nombre}
+          onError={(event) => {
+            event.currentTarget.src = comboFallback;
+          }}
+          sx={{
+            width: "100%",
+            maxHeight: 360,
+            objectFit: "cover",
+            borderRadius: 2,
+            mb: 3,
+            backgroundColor: "#F5F5F5",
+          }}
+        />
+
         <Typography variant="h4" component="h1" gutterBottom>
           {combo.nombre}
         </Typography>

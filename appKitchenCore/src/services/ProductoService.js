@@ -35,17 +35,17 @@ class ProductoService {
 
   /** Registra un producto con sus ingredientes. */
   createProducto(data) {
-    return axios.post(BASE_URL, data);
+    return axios.post(BASE_URL + "/create", data);
   }
 
   /** Actualiza los datos y los ingredientes de un producto. */
   updateProducto(id, data) {
-    return axios.put(BASE_URL + "/" + id, data);
+    return axios.post(BASE_URL + "/update/" + id, data);
   }
 
   /** Desactiva un producto sin eliminarlo físicamente. */
   deleteProducto(id) {
-    return axios.delete(BASE_URL + "/" + id);
+    return axios.post(BASE_URL + "/delete/" + id);
   }
 
   /** Reactiva un producto desactivado. */

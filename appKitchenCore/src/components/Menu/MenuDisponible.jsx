@@ -10,18 +10,7 @@ import Chip from "@mui/material/Chip";
 import Divider from "@mui/material/Divider";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-
-/** Convierte una fecha del API a un formato legible en Costa Rica. */
-const formatearFecha = (fecha) => {
-  const [anio, mes, dia] = fecha.split("-").map(Number);
-
-  return new Intl.DateTimeFormat("es-CR", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(new Date(anio, mes - 1, dia));
-};
+import { formatearFecha, formatearPrecio, formatearRangoHoras } from "../../utils/formatters";
 
 /** Carga y presenta el menú vigente agrupado por categorías. */
 export function MenuDisponible() {
@@ -83,7 +72,7 @@ export function MenuDisponible() {
             />
 
             <Chip
-              label={`Horario: ${menu.hora_inicio} - ${menu.hora_fin}`}
+              label={`Horario: ${formatearRangoHoras(menu.hora_inicio, menu.hora_fin)}`}
               color="secondary"
               sx={{ mb: 1 }}
             />
@@ -121,7 +110,7 @@ export function MenuDisponible() {
                           </Box>
 
                           <Typography variant="h6" color="secondary">
-                            ₡{Number(item.precio).toLocaleString("es-CR")}
+                            {formatearPrecio(item.precio)}
                           </Typography>
                         </Box>
                       </CardContent>

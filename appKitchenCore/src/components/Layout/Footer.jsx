@@ -182,9 +182,12 @@ export function Footer() {
             sx={{ color: "rgba(255,255,255,0.62)" }}
           >
             © {new Date().getFullYear()} KitchenCore · Todos los derechos reservados
+            <br />
+            Hecho por Maria Paula Murlilo y Sebastian Ortiz
           </Typography>
         </Container>
       </Box>
     </Box>
+    
   );
 }

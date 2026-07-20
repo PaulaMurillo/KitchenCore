@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MenuService from "../../services/MenuService";
+import { formatearFecha, formatearRangoHoras } from "../../utils/formatters";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -64,15 +65,15 @@ export function ListMenus() {
                 </Box>
 
                 <Typography variant="body2">
-                  <strong>Desde:</strong> {menu.fecha_inicio}
+                  <strong>Desde:</strong> {formatearFecha(menu.fecha_inicio)}
                 </Typography>
 
                 <Typography variant="body2">
-                  <strong>Hasta:</strong> {menu.fecha_fin}
+                  <strong>Hasta:</strong> {formatearFecha(menu.fecha_fin)}
                 </Typography>
 
                 <Typography variant="body2">
-                  <strong>Horario:</strong> {menu.hora_inicio} - {menu.hora_fin}
+                  <strong>Horario:</strong> {formatearRangoHoras(menu.hora_inicio, menu.hora_fin)}
                 </Typography>
               </CardContent>
             </Card>

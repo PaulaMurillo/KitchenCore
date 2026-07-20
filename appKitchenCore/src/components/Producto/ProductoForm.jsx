@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import ProductoService from "../../services/ProductoService";
+import UploadService from "../../services/UploadService";
 import { getImageUrl } from "../../utils/getImageUrl";
 
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -54,6 +56,7 @@ export function ProductoForm({ initialData = null, onSubmit, submitLabel = "Guar
   const [ordenSeleccionado, setOrdenSeleccionado] = useState("");
   const [catalogosCargando, setCatalogosCargando] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
 
@@ -80,6 +83,32 @@ export function ProductoForm({ initialData = null, onSubmit, submitLabel = "Guar
     const { name, value } = event.target;
     setForm((current) => ({ ...current, [name]: value }));
     setErrors((current) => ({ ...current, [name]: "" }));
+  };
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) return;
+
+    setApiError("");
+    setUploadingImage(true);
+
+    try {
+      const response = await UploadService.uploadImage(file, "producto");
+      const imagenUrl = response.data?.imagen_url;
+
+      if (!imagenUrl) {
+        throw new Error("El servidor no devolvio la ruta de la imagen");
+      }
+
+      setForm((current) => ({ ...current, imagen_url: imagenUrl }));
+      setErrors((current) => ({ ...current, imagen_url: "" }));
+    } catch (error) {
+      setApiError(error.response?.data?.error || error.message || "No se pudo cargar la imagen");
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   const agregarIngrediente = () => {
@@ -199,7 +228,9 @@ export function ProductoForm({ initialData = null, onSubmit, submitLabel = "Guar
     const nuevosErrores = {};
 
     if (!form.nombre.trim()) nuevosErrores.nombre = "El nombre es requerido";
-    if (!form.descripcion.trim()) nuevosErrores.descripcion = "La descripción es requerida";
+    if (!form.descripcion.trim()) {
+      nuevosErrores.descripcion = "Por favor complete la descripción";
+    }
     if (!form.precio || Number(form.precio) <= 0) {
       nuevosErrores.precio = "El precio debe ser mayor que cero";
     }
@@ -274,7 +305,7 @@ export function ProductoForm({ initialData = null, onSubmit, submitLabel = "Guar
   }
 
   return (
-    <Paper component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2, md: 4 } }}>
+    <Paper component="form" onSubmit={handleSubmit} noValidate sx={{ p: { xs: 2, md: 4 } }}>
       {apiError && (
         <Alert severity="error" sx={{ mb: 3 }}>
           {apiError}
@@ -298,19 +329,6 @@ export function ProductoForm({ initialData = null, onSubmit, submitLabel = "Guar
         />
 
         <TextField
-          name="precio"
-          label="Precio"
-          type="number"
-          value={form.precio}
-          onChange={handleFieldChange}
-          required
-          error={Boolean(errors.precio)}
-          helperText={errors.precio}
-          inputProps={{ min: 0.01, step: 0.01 }}
-          fullWidth
-        />
-
-        <TextField
           name="descripcion"
           label="Descripción"
           value={form.descripcion}
@@ -322,6 +340,19 @@ export function ProductoForm({ initialData = null, onSubmit, submitLabel = "Guar
           helperText={errors.descripcion}
           fullWidth
           sx={{ gridColumn: { md: "1 / -1" } }}
+        />
+
+        <TextField
+          name="precio"
+          label="Precio"
+          type="number"
+          value={form.precio}
+          onChange={handleFieldChange}
+          required
+          error={Boolean(errors.precio)}
+          helperText={errors.precio}
+          inputProps={{ min: 0.01, step: 0.01 }}
+          fullWidth
         />
 
         <FormControl required error={Boolean(errors.id_categoria)} fullWidth>
@@ -365,10 +396,26 @@ export function ProductoForm({ initialData = null, onSubmit, submitLabel = "Guar
           value={form.imagen_url}
           onChange={handleFieldChange}
           placeholder="uploads/CoreBurger.jpeg"
-          helperText="Ejemplo: uploads/CoreBurger.jpeg"
+          helperText="Puede buscar una imagen local o escribir una ruta como uploads/CoreBurger.jpeg"
           fullWidth
           sx={{ gridColumn: { md: "1 / -1" } }}
         />
+        <Button
+          component="label"
+          type="button"
+          variant="outlined"
+          startIcon={uploadingImage ? <CircularProgress size={18} /> : <PhotoCameraIcon />}
+          disabled={uploadingImage}
+          sx={{ justifySelf: "start" }}
+        >
+          {uploadingImage ? "Cargando..." : "Buscar imagen"}
+          <input
+            hidden
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            onChange={handleImageUpload}
+          />
+        </Button>
       </Box>
 
       {form.imagen_url && (

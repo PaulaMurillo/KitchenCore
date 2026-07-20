@@ -1,65 +1,69 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
+import MoreIcon from "@mui/icons-material/MoreVert";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import AppBar from "@mui/material/AppBar";
+import Badge from "@mui/material/Badge";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Badge from "@mui/material/Badge";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import MoreIcon from "@mui/icons-material/MoreVert";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 import { UserContext } from "../../context/UserContext";
 import logoKitchenCore from "../../assets/kitchencore-logo.png";
+import { MANTENIMIENTO_ITEMS, NAV_ITEMS } from "../../config/rolePermissions";
 
-/** Presenta la navegación principal y las opciones de la sesión activa. */
+/** Presenta la navegacion principal y las opciones de la sesion activa. */
 export default function Header() {
   const { user, decodeToken, autorize } = useContext(UserContext);
   const [userData, setUserData] = useState(decodeToken());
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElPrincipal, setAnchorElPrincipal] = useState(null);
+  const [anchorElMantenimientos, setAnchorElMantenimientos] = useState(null);
+  const [mobileOpcionesAnchorEl, setMobileOpcionesAnchorEl] = useState(null);
 
   useEffect(() => {
     setUserData(decodeToken());
   }, [user, decodeToken]);
 
-  const [anchorElUser, setAnchorElUser] = useState(null);
-  const [anchorElPrincipal, setAnchorElPrincipal] = useState(null);
-  const [mobileOpcionesAnchorEl, setMobileOpcionesAnchorEl] = useState(null);
-
   const isMobileOpcionesMenuOpen = Boolean(mobileOpcionesAnchorEl);
 
-  /** Abre el menú asociado a la cuenta del usuario. */
   const handleUserMenuOpen = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  /** Cierra el menú de usuario y sus opciones auxiliares. */
   const handleUserMenuClose = () => {
     setAnchorElUser(null);
     handleOpcionesMenuClose();
   };
 
-  /** Abre el menú principal en pantallas pequeñas. */
   const handleOpenPrincipalMenu = (event) => {
     setAnchorElPrincipal(event.currentTarget);
   };
 
-  /** Cierra el menú principal para dispositivos móviles. */
   const handleClosePrincipalMenu = () => {
     setAnchorElPrincipal(null);
   };
 
-  /** Abre el menú móvil de opciones adicionales. */
+  const handleOpenMantenimientos = (event) => {
+    setAnchorElMantenimientos(event.currentTarget);
+  };
+
+  const handleCloseMantenimientos = () => {
+    setAnchorElMantenimientos(null);
+  };
+
   const handleOpcionesMenuOpen = (event) => {
     setMobileOpcionesAnchorEl(event.currentTarget);
   };
 
-  /** Cierra el menú móvil de opciones adicionales. */
   const handleOpcionesMenuClose = () => {
     setMobileOpcionesAnchorEl(null);
   };
@@ -67,47 +71,60 @@ export default function Header() {
   const userItems = [
     { name: "Iniciar sesión", link: "/user/login", login: false },
     { name: "Registrarse", link: "/user/create", login: false },
+    { name: "Mi perfil", link: "/user/perfil", login: true },
     { name: "Cerrar sesión", link: "/user/logout", login: true },
   ];
 
-  const navItems = [
-    { name: "Productos", link: "/productos", roles: null },
-    {
-      name: "Mantenimiento Productos",
-      link: "/productos/mantenimiento",
-      roles: null,
-    },
-    { name: "Combos", link: "/combos", roles: null },
-    { name: "Menús", link: "/menus", roles: null },
-    { name: "Menú disponible", link: "/menu-disponible", roles: null },
-    { name: "Preparación", link: "/procesos", roles: null },
-  ];
-
-  /** Determina si una opción de navegación puede mostrarse según el rol. */
   const canShowItem = (item) => {
     if (item.roles === null) return true;
     if (!userData || Object.keys(userData).length === 0) return false;
     return autorize({ requiredRoles: item.roles });
   };
 
-  const visibleNavItems = navItems.filter(canShowItem);
+  const visibleNavItems = NAV_ITEMS.filter(canShowItem);
+  const visibleMantenimientoItems = MANTENIMIENTO_ITEMS.filter(canShowItem);
 
   const menuIdPrincipal = "menu-principal-kitchencore";
   const userMenuId = "user-menu-kitchencore";
   const menuOpcionesId = "menu-opciones-kitchencore";
-
   const isLogged = userData && Object.keys(userData).length > 0;
 
-  const menuPrincipalMobile = visibleNavItems.map((item) => (
-    <MenuItem
-      key={item.link}
-      component={Link}
-      to={item.link}
-      onClick={handleClosePrincipalMenu}
-    >
-      <Typography>{item.name}</Typography>
-    </MenuItem>
-  ));
+  const menuPrincipalMobile = (
+    <Box>
+      {visibleNavItems.map((item) => (
+        <MenuItem
+          key={item.link}
+          component={Link}
+          to={item.link}
+          onClick={handleClosePrincipalMenu}
+        >
+          <Typography>{item.name}</Typography>
+        </MenuItem>
+      ))}
+
+      {visibleMantenimientoItems.length > 0 && (
+        <>
+          <Divider />
+          <MenuItem disabled>
+            <Typography sx={{ fontWeight: 900, color: "#0B0B0B" }}>
+              Mantenimientos
+            </Typography>
+          </MenuItem>
+          {visibleMantenimientoItems.map((item) => (
+            <MenuItem
+              key={item.link}
+              component={Link}
+              to={item.link}
+              onClick={handleClosePrincipalMenu}
+              sx={{ pl: 4 }}
+            >
+              <Typography>{item.name}</Typography>
+            </MenuItem>
+          ))}
+        </>
+      )}
+    </Box>
+  );
 
   const userMenu = (
     <Box>
@@ -136,14 +153,8 @@ export default function Header() {
         anchorEl={anchorElUser}
         open={Boolean(anchorElUser)}
         onClose={handleUserMenuClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         {isLogged && (
           <MenuItem>
@@ -195,14 +206,8 @@ export default function Header() {
       id={menuOpcionesId}
       open={isMobileOpcionesMenuOpen}
       onClose={handleOpcionesMenuClose}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
     >
       <MenuItem onClick={handleOpcionesMenuClose}>
         <IconButton size="large">
@@ -226,21 +231,12 @@ export default function Header() {
           zIndex: 1200,
         }}
       >
-        <Toolbar
-          sx={{
-            minHeight: { xs: 76, md: 88 },
-            gap: 2,
-            px: { xs: 2, md: 4 },
-          }}
-        >
+        <Toolbar sx={{ minHeight: { xs: 76, md: 88 }, gap: 2, px: { xs: 2, md: 4 } }}>
           <IconButton
             size="large"
             aria-controls={menuIdPrincipal}
             aria-haspopup="true"
-            sx={{
-              display: { xs: "flex", md: "none" },
-              color: "#ffffff",
-            }}
+            sx={{ display: { xs: "flex", md: "none" }, color: "#ffffff" }}
             onClick={handleOpenPrincipalMenu}
           >
             <MenuIcon />
@@ -316,6 +312,61 @@ export default function Header() {
                 {item.name}
               </Button>
             ))}
+
+            {visibleMantenimientoItems.length > 0 && (
+              <>
+                <Button
+                  onClick={handleOpenMantenimientos}
+                  sx={{
+                    color: "#ffffff",
+                    fontWeight: 800,
+                    borderRadius: "999px",
+                    px: 2,
+                    py: 1,
+                    whiteSpace: "nowrap",
+                    textTransform: "none",
+                    "&:hover": {
+                      backgroundColor: "#E50914",
+                      color: "#ffffff",
+                    },
+                  }}
+                >
+                  Mantenimientos
+                </Button>
+
+                <Menu
+                  anchorEl={anchorElMantenimientos}
+                  open={Boolean(anchorElMantenimientos)}
+                  onClose={handleCloseMantenimientos}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                  transformOrigin={{ vertical: "top", horizontal: "left" }}
+                  PaperProps={{
+                    sx: {
+                      mt: 1,
+                      minWidth: 230,
+                      borderTop: "4px solid #E50914",
+                    },
+                  }}
+                >
+                  {visibleMantenimientoItems.map((item) => (
+                    <MenuItem
+                      key={item.link}
+                      component={Link}
+                      to={item.link}
+                      onClick={handleCloseMantenimientos}
+                      sx={{
+                        fontWeight: 700,
+                        "&:hover": {
+                          backgroundColor: "rgba(229, 9, 20, 0.1)",
+                        },
+                      }}
+                    >
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            )}
           </Box>
 
           <Box sx={{ flexGrow: { xs: 1, md: 0 } }} />
@@ -343,7 +394,7 @@ export default function Header() {
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
-              aria-label="mostrar más opciones"
+              aria-label="mostrar mas opciones"
               aria-controls={menuOpcionesId}
               aria-haspopup="true"
               onClick={handleOpcionesMenuOpen}

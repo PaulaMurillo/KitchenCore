@@ -32,6 +32,7 @@ require_once "controllers/ProductoController.php";
 require_once "controllers/ComboController.php";
 require_once "controllers/MenuController.php";
 require_once "controllers/PreparacionController.php";
+require_once "controllers/UploadController.php";
 
 /* Enrutador */
 require_once "routes/RoutesController.php";

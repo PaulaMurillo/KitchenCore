@@ -62,8 +62,8 @@ export function Login() {
           })
           return navigate('/')
          }else{
-          //Usuario No válido
-          toast.error('Usuario No válido',{
+          // Usuario no válido
+          toast.error('Usuario no válido',{
             duration:4000
           })
          }

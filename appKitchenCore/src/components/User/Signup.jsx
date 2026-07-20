@@ -24,12 +24,10 @@ export function Signup() {
       .required('El email es requerido')
       .email('Formato email'),
     password: yup.string().required('El password es requerido'),
-    rol_id: yup.number().required('El rol es requerido'),
   });
   const {
     control,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
     // Valores iniciales
@@ -37,7 +35,6 @@ export function Signup() {
       name: '',
       email: '',
       password: '',
-      rol_id: 2,
     },
     // Asignación de validaciones
     resolver: yupResolver(loginSchema),
@@ -54,9 +51,6 @@ export function Signup() {
   const onSubmit = (DataForm) => {
     try {
       console.log(DataForm);
-      //Registrar usuario
-      //Asignar por defector rol
-      setValue('rol_id', 2);
       UserService.createUser(DataForm)
         .then((response) => {
           console.log(response);

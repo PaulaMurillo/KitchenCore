@@ -3,6 +3,7 @@ import { appTheme } from "./themes/theme";
 import { Layout } from "./components/Layout/Layout";
 import { Outlet } from 'react-router-dom'
 import { CartProvider } from "./context/CartContext";
+import { Toaster } from "react-hot-toast";
 
 /** Compone la estructura principal y las notificaciones de la aplicación. */
 
@@ -15,6 +16,7 @@ export default function App() {
         <Layout> 
           <Outlet /> 
         </Layout> 
+        <Toaster position="top-right" />
       </ThemeProvider>
     </CartProvider> 
   ); 
